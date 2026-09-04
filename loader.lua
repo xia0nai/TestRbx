@@ -10,24 +10,16 @@ local _version = "1.6.66"
 local WindUI
 
 do
-	local ok, result = pcall(function()
-		return require("./src/Init")
-	end)
-
-	if ok then
-		WindUI = result
-	else
-		if cloneref(game:GetService("RunService")):IsStudio() then
-			WindUI = require(cloneref(ReplicatedStorage:WaitForChild("WindUI"):WaitForChild("Init")))
-		else
-			WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/download/" .. _version .. "/main.lua"))()
-		end
-	end
+    if cloneref(game:GetService("RunService")):IsStudio() then
+        WindUI = require(cloneref(ReplicatedStorage:WaitForChild("WindUI"):WaitForChild("Init")))
+    else
+        WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/download/" .. _version .. "/main.lua"))()
+    end
 end
 
 -- */  Window  /* --
 local Window = WindUI:CreateWindow({
-	Title = "TestRbx  |  WindUI Example",
+	Title = "TestRbx | WindUI Example",
 	Author = "by xia0nai",
 	Folder = "xia0nai_TestRbx",
 	Icon = "solar:folder-2-bold-duotone",
