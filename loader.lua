@@ -12,7 +12,7 @@ do
     if cloneref(game:GetService("RunService")):IsStudio() then
         WindUI = require(cloneref(ReplicatedStorage:WaitForChild("WindUI"):WaitForChild("Init")))
     else
-        WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/xia0nai/TestRbx/main/dist/main.lua"))()
+        WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/xia0nai/TestRbx/refs/heads/main/dist/main.lua"))()
     end
 end
 
