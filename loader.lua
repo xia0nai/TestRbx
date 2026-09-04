@@ -6,6 +6,7 @@ end)
 local ReplicatedStorage = cloneref(game:GetService("ReplicatedStorage"))
 local HttpService = cloneref(game:GetService("HttpService"))
 
+local _version = "1.6.66"
 local WindUI
 
 do
@@ -19,8 +20,7 @@ do
 		if cloneref(game:GetService("RunService")):IsStudio() then
 			WindUI = require(cloneref(ReplicatedStorage:WaitForChild("WindUI"):WaitForChild("Init")))
 		else
-			WindUI =
-				loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
+			WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/download/" .. _version .. "/main.lua"))()
 		end
 	end
 end
