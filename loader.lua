@@ -58,13 +58,17 @@ end
 
 local Tabs = {
 	SettingsTab = Window:Tab({
+		Title = "Main",
+		Icon = "home",
+	}),
+	SettingsTab = Window:Tab({
 		Title = "Settings",
-		Icon = "cogs",
+		Icon = "gears",
 	}),
 }
 
 -- */ Settings Tab /* --
-local MiscSection = Tabs.SettingsTab:Section({ 
+Tabs.SettingsTab:Section({ 
     Title = "Miscellaneous",
     FontWeight = "SemiBold",
     TextTransparency = 0.05,
