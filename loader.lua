@@ -57,13 +57,13 @@ do
 end
 
 local Tabs = {
-	SettingsTab = Window:Tab({
+	MainTab = Window:Tab({
 		Title = "Main",
-		Icon = "home",
+		Icon = "lucide:house",
 	}),
 	SettingsTab = Window:Tab({
 		Title = "Settings",
-		Icon = "gears",
+		Icon = "lucide:settings",
 	}),
 }
 
