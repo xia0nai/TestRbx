@@ -87,7 +87,11 @@ do
     Type = "Checkbox",
     Value = false, -- default value
     Callback = function(state) 
-        showNotif("Settings changes", "Anti-AFK was applied")
+		if state then
+			showNotif("Settings changes", "Anti-AFK enabled")
+		else
+			showNotif("Settings changes", "Anti-AFK disabled")
+		end
     end
 })
 end
