@@ -1,3 +1,6 @@
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local VirtualUser = game:GetService("VirtualUser")
 local RunService = game:GetService("RunService")
 
 local cloneref = (cloneref or clonereference or function(instance)
@@ -16,6 +19,45 @@ do
     end
 end
 
+-- */ Anti-AFK init /* --
+local AntiAFK = {}
+AntiAFK.Enabled = false
+AntiAFK.IdleThreshold = 15 * 60
+
+local lastInput = tick()
+local heartbeatConn = nil
+local inputConns = {}
+
+local function resetTimer()
+    lastInput = tick()
+end
+
+function AntiAFK.Toggle(state)
+    AntiAFK.Enabled = state
+    if heartbeatConn then heartbeatConn:Disconnect() heartbeatConn = nil end
+    for _, conn in ipairs(inputConns) do
+        conn:Disconnect()
+    end
+    inputConns = {}
+    if not state then return end
+    lastInput = tick()
+    table.insert(inputConns, UserInputService.InputBegan:Connect(resetTimer))
+    table.insert(inputConns, UserInputService.InputChanged:Connect(resetTimer))
+
+    task.spawn(function()
+        while AntiAFK.Enabled do
+            task.wait(50)
+            if AntiAFK.Enabled and tick() - lastInput >= AntiAFK.IdleThreshold then
+                VirtualUser:CaptureController()
+                VirtualUser:ClickButton2(Vector2.new())
+                lastInput = tick()
+            end
+        end
+    end)
+end
+-- */ END Anti-AFK init /* --
+
+-- */ Show Notification init /* --
 function showNotif(section, msg)
 	return WindUI:Notify({
 		Title = section,
@@ -87,8 +129,9 @@ do
 	local AFKToggle = AboutSection:Toggle({
     Title = "Anti-AFK",
     Type = "Checkbox",
-    Value = false, -- default value
+    Value = true, -- default value
     Callback = function(state) 
+		AntiAFK.Toggle(state)
 		if state then
 			showNotif("Settings changes", "Anti-AFK enabled")
 		else
