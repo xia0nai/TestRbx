@@ -21,19 +21,16 @@ local Window = WindUI:CreateWindow({
 	Title = "TestRbx",
 	Author = "by xia0nai",
 	Folder = "xia0nai",
-	Icon = "solar:folder-2-bold-duotone",
+	Icon = "solar:atom-bold-duotone",
 	Theme = "Crimson",
-	--IconSize = 22*2,
 	NewElements = true,
-	--Size = UDim2.fromOffset(700,700),
-
 	HideSearchBar = false,
-
 	OpenButton = {
-		Title = "Open TestRbx", -- can be changed
-		CornerRadius = UDim.new(1, 0), -- fully rounded
-		StrokeThickness = 2, -- removing outline
-		Enabled = true, -- enable or disable openbutton
+		Title = "TestRbx",
+		Icon = "solar:atom-bold-duotone",
+		CornerRadius = UDim.new(1, 0),
+		StrokeThickness = 2,
+		Enabled = true,
 		Draggable = true,
 		OnlyMobile = false,
 		Scale = 0.7,
@@ -47,11 +44,8 @@ local Window = WindUI:CreateWindow({
 		ButtonsType = "Mac", -- Default or Mac
 	},
 })
-
---createPopup()
-
-Window:SetUIScale(.7)
-
+-- */  Scale window  /* --
+-- Window:SetUIScale(.7)
 -- */  Tags  /* --
 do
 	Window:Tag({
@@ -61,3 +55,19 @@ do
 		Border = true,
 	})
 end
+
+local Tabs = {
+	SettingsTab = Window:Tab({
+		Title = "Settings",
+		Icon = "cogs",
+	}),
+}
+
+-- */ Settings Tab /* --
+local MiscSection = Tabs.SettingsTab:Section({ 
+    Title = "Miscellaneous",
+    FontWeight = "SemiBold",
+    TextTransparency = 0.05,
+    TextXAlignment = "Left",
+    Opened = true,
+})
