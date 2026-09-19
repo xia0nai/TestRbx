@@ -80,6 +80,8 @@ local Tabs = {
 do
 	local AboutSection = Tabs.SettingsTab:Section({
 		Title = "Miscellaneous",
+		Box= true,
+		Opened = true,
 	})
 
 	local AFKToggle = AboutSection:Toggle({
