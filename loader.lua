@@ -16,6 +16,15 @@ do
     end
 end
 
+function showNotif(section, msg)
+	return WindUI:Notify({
+		Title = section,
+		Content = msg,
+		Duration = 3,
+		Icon = "lucide:info",
+	})
+end
+
 -- */  Window  /* --
 local Window = WindUI:CreateWindow({
 	Title = "TestRbx",
@@ -68,10 +77,17 @@ local Tabs = {
 }
 
 -- */ Settings Tab /* --
-Tabs.SettingsTab:Section({ 
-    Title = "Miscellaneous",
-    FontWeight = "SemiBold",
-    TextTransparency = 0.05,
-    TextXAlignment = "Left",
-    Opened = true,
+do
+	local AboutSection = Tabs.SettingsTab:Section({
+		Title = "Miscellaneous",
+	})
+
+	local AFKToggle = AboutSection:Toggle({
+    Title = "Anti-AFK",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state) 
+        showNotif("Settings changes", "Anti-AFK was applied")
+    end
 })
+end
