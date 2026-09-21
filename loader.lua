@@ -74,15 +74,119 @@ local Tabs = {
 		Title = "Main",
 		Icon = "lucide:house",
 	}),
+	TeleportTab = Window:Tab({
+		Title = "Teleport",
+		Icon = "lucide:map-pin",
+	}),
 	SettingsTab = Window:Tab({
 		Title = "Settings",
 		Icon = "lucide:settings",
 	}),
 }
 
+-- */ Teleport Tab /* --
+do
+	local TeleportSection = Tabs.TeleportTab:Section({
+		Title = "Teleport",
+		Box= true,
+		Opened = true,
+	})
+
+	local player = Players.LocalPlayer
+	local SavedCoords = {}
+	local selectedCheckpoint = nil
+
+	local function SaveCoordinate(key)
+		local character = player.Character
+		if not character then
+			showNotif("Error", "Character tidak ditemukan")
+			return false
+		end
+
+		local rootPart = character:FindFirstChild("HumanoidRootPart")
+		if not rootPart then
+			showNotif("Error", "HumanoidRootPart tidak ditemukan")
+			return false
+		end
+
+		SavedCoords[key] = rootPart.CFrame
+		showNotif("Saved", "Coordinate '" .. key .. "' telah disimpan")
+		return true
+	end
+
+	local function GetCoordinate(key)
+		return SavedCoords[key]
+	end
+
+	local function TeleportTo(key)
+		local cframe = SavedCoords[key]
+		if not cframe then
+			showNotif("Error", "Coordinate '" .. key .. "' tidak ada")
+			return
+		end
+
+		local character = player.Character
+		local rootPart = character and character:FindFirstChild("HumanoidRootPart")
+		if rootPart then
+			rootPart.CFrame = cframe
+		end
+	end
+
+	local function GetCoordinateKeys()
+		local keys = {}
+		for key, _ in pairs(SavedCoords) do
+			table.insert(keys, key)
+		end
+		table.sort(keys)  -- opsional, biar urut alfabetis
+		return keys
+	end
+
+	local CheckPointDropdown = TeleportSection:Dropdown({
+		Title = "Select checkpoint",
+		Values = GetCoordinateKeys(),
+		Callback = function(selected)
+			selectedCheckpoint = selected
+			showNotif("Checkpoint selected: " .. selected)
+		end
+	})
+
+	local Input = TeleportSection:Input({
+		Title = "Input checkpoint name",
+		Callback = function(text)
+			selectedCheckpoint = text
+		end
+	})
+
+	local TPButton = TeleportSection:Button({
+		Title = "Teleport",
+		Callback = function()
+			if selectedCheckpoint then
+				TeleportTo(selectedCheckpoint)
+			end
+		end
+	})
+
+	local SaveButton = TeleportSection:Button({
+		Title = "Save Coordinate",
+		Callback = function()
+			if selectedCheckpoint == "" then
+				showNotif("Error", "Nama checkpoint kosong!")
+				return
+			end
+
+			local success = SaveCoordinate(selectedCheckpoint)
+			if success then
+				showNotif("Success", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
+				CheckPointDropdown:Refresh(GetCoordinateKeys())  -- update dropdown biar muncul yang baru
+			end
+		end
+	})
+end
+-- */ END Teleport Tab /* --
+
 -- */ Settings Tab /* --
 do
-	local AboutSection = Tabs.SettingsTab:Section({
+	local MiscSection = Tabs.SettingsTab:Section({
 		Title = "Miscellaneous",
 		Box= true,
 		Opened = true,
@@ -124,7 +228,7 @@ do
 		end)
 	end
 
-	local AFKToggle = AboutSection:Toggle({
+	local AFKToggle = MiscSection:Toggle({
 		Title = "Anti-AFK",
 		Type = "Checkbox",
 		Value = true, -- default value
@@ -140,3 +244,4 @@ do
 	})
 	-- */ END Anti-AFK init /* --
 end
+-- */ END Settings Tab /* --
