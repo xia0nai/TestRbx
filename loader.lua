@@ -32,7 +32,7 @@ end
 -- */  Window  /* --
 local Window = WindUI:CreateWindow({
 	Title = "TestRbx",
-	Author = "by xia0nai",
+	Author = "by xDiiw",
 	Folder = "xia0nai",
 	Icon = "solar:atom-bold-duotone",
 	Theme = "Crimson",
@@ -142,32 +142,25 @@ do
 	end
 
 	local CheckPointDropdown = TeleportSection:Dropdown({
-		Title = "Select checkpoint",
+		Title = "Checkpoint",
 		Values = GetCoordinateKeys(),
 		Callback = function(selected)
 			selectedCheckpoint = selected
-			showNotif("Checkpoint selected: " .. selected)
 		end
 	})
 
 	local Input = TeleportSection:Input({
-		Title = "Input checkpoint name",
+		Title = "Checkpoint name",
 		Callback = function(text)
 			selectedCheckpoint = text
 		end
 	})
 
-	local TPButton = TeleportSection:Button({
-		Title = "Teleport",
-		Callback = function()
-			if selectedCheckpoint then
-				TeleportTo(selectedCheckpoint)
-			end
-		end
-	})
+	local HStack = TeleportSection:HStack()
 
-	local SaveButton = TeleportSection:Button({
+	local SaveButton = HStack:Button({
 		Title = "Save Coordinate",
+		Icon = "lucide:save",
 		Callback = function()
 			if selectedCheckpoint == "" then
 				showNotif("Error", "Nama checkpoint kosong!")
@@ -181,6 +174,17 @@ do
 			end
 		end
 	})
+
+	local TPButton = HStack:Button({
+		Title = "Teleport",
+		Callback = function()
+			if selectedCheckpoint then
+				TeleportTo(selectedCheckpoint)
+				shwNotif("Teleported", "Teleported to '" .. selectedCheckpoint .. "'")
+			end
+		end
+	})
+
 end
 -- */ END Teleport Tab /* --
 
