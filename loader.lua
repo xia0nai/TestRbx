@@ -108,6 +108,7 @@ do
 		end
 
 		SavedCoords[key] = rootPart.CFrame
+		showNotif("Saved", "Checkpoint '" .. key .. "' saved!")
 		return true
 	end
 
@@ -125,6 +126,7 @@ do
 		local rootPart = character and character:FindFirstChild("HumanoidRootPart")
 		if rootPart then
 			rootPart.CFrame = cframe
+			shwNotif("Teleported", "Teleported to '" .. key .. "'")
 		end
 	end
 
@@ -166,7 +168,6 @@ do
 			local success = SaveCoordinate(selectedCheckpoint)
 			if success then
 				CheckPointDropdown:Refresh(GetCoordinateKeys())  -- update dropdown biar muncul yang baru
-				showNotif("Success", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
 				NewCPInput:Set("")
 			end
 		end
@@ -177,7 +178,6 @@ do
 		Callback = function()
 			if selectedCheckpoint then
 				TeleportTo(selectedCheckpoint)
-				shwNotif("Teleported", "Teleported to '" .. selectedCheckpoint .. "'")
 			end
 		end
 	})
