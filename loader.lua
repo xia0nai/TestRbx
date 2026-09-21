@@ -149,8 +149,8 @@ do
 		end
 	})
 
-	local Input = TeleportSection:Input({
-		Title = "Checkpoint name",
+	local NewCPInput = TeleportSection:Input({
+		Title = "New checkpoint name",
 		Callback = function(text)
 			selectedCheckpoint = text
 		end
@@ -159,7 +159,7 @@ do
 	local HStack = TeleportSection:HStack()
 
 	local SaveButton = HStack:Button({
-		Title = "Save Coordinate",
+		Title = "Save",
 		Icon = "lucide:save",
 		Callback = function()
 			if selectedCheckpoint == "" then
@@ -171,6 +171,7 @@ do
 			if success then
 				showNotif("Success", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
 				CheckPointDropdown:Refresh(GetCoordinateKeys())  -- update dropdown biar muncul yang baru
+				NewCPInput:Set("")
 			end
 		end
 	})
