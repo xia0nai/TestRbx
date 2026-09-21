@@ -99,18 +99,15 @@ do
 	local function SaveCoordinate(key)
 		local character = player.Character
 		if not character then
-			showNotif("Error", "Character tidak ditemukan")
 			return false
 		end
 
 		local rootPart = character:FindFirstChild("HumanoidRootPart")
 		if not rootPart then
-			showNotif("Error", "HumanoidRootPart tidak ditemukan")
 			return false
 		end
 
 		SavedCoords[key] = rootPart.CFrame
-		showNotif("Saved", "Coordinate '" .. key .. "' telah disimpan")
 		return true
 	end
 
@@ -121,7 +118,6 @@ do
 	local function TeleportTo(key)
 		local cframe = SavedCoords[key]
 		if not cframe then
-			showNotif("Error", "Coordinate '" .. key .. "' tidak ada")
 			return
 		end
 
@@ -169,8 +165,8 @@ do
 
 			local success = SaveCoordinate(selectedCheckpoint)
 			if success then
-				showNotif("Success", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
 				CheckPointDropdown:Refresh(GetCoordinateKeys())  -- update dropdown biar muncul yang baru
+				showNotif("Success", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
 				NewCPInput:Set("")
 			end
 		end
