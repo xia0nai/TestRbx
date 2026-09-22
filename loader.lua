@@ -132,11 +132,6 @@ do
     local SavedCoords = {}
     local selectedCheckpoint = nil
 
-    for idx, value in ipairs(ListCheckpoints) do
-        local key, cframe = StringToCFrame(value)
-        SavedCoords[key] = cframe
-    end
-
     local function CFrameToString(key, cf)
         local x, y, z = cf.Position.X, cf.Position.Y, cf.Position.Z
         local rx, ry, rz = cf:ToEulerAnglesXYZ()
@@ -198,6 +193,11 @@ do
         end
         table.sort(keys) -- opsional, biar urut alfabetis
         return keys
+    end
+
+    for idx, value in ipairs(ListCheckpoints) do
+        local key, cframe = StringToCFrame(value)
+        SavedCoords[key] = cframe
     end
 
     local CheckPointDropdown = TeleportSection:Dropdown({
