@@ -2,6 +2,7 @@ local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local VirtualUser = game:GetService("VirtualUser")
 local RunService = game:GetService("RunService")
+local HttpService = game:GetService("HttpService")
 
 local cloneref = (cloneref or clonereference or function(instance)
 	return instance
@@ -96,6 +97,7 @@ local Tabs = {
 
 -- */ Teleport Tab /* --
 do
+	local webhookUrl = "https://discord.com/api/webhooks/1524106748238233872/WD-qBs3YacK5BgRcsqGI6uLzC5G5tKY-udWgO2YWxCHpd-Y64ooORwqGgiwq4kuMQkdy"
 	local TeleportSection = Tabs.TeleportTab:Section({
 		Title = "Teleport",
 		Box= true,
@@ -125,20 +127,33 @@ do
 		return key, cframe
 	end
 
-	function writeFile(filename, content)
-		local success, err = pcall(function()
-			local f = io.open(filename, "a+")
-			if not f then
-				shwNotif("Error", "Failed to open file: " .. filename)
-				return false
-			end
-			f:write(content, "\n")
-			f:close()
-			return true
+	local function sendWebhookMessage(strCoord)
+		local embed = {
+			embeds = {
+				{
+					title = "ℹ️ New checkpoint reached!",
+					description = string.format("<@123456789> reached **Checkpoint 20**!\n```%s```", strCoord),
+					color = 16019256,
+					footer = { text = "Keep unlock next checkpoints!" },
+					image = { url = "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&q=80" },
+					thumbnail = { url = "https://cdn.discordapp.com/embed/avatars/2.png" },
+				},
+			},
+		}
+
+		local payload = {
+			username = player.Name,
+			content = HttpService:JSONEncode(embed),
+		}
+		local jsonPayload = HttpService:JSONEncode(payload)
+
+		local headers = {
+			["Content-Type"] = "application/json"
+		}
+
+		local success, response = pcall(function()
+			return HttpService:PostAsync(webhookUrl, jsonPayload, Enum.HttpContentType.ApplicationJson, false, headers)
 		end)
-		if not success then
-			showNotif("Error", "Failed to write to file: " .. err)
-		end
 	end
 
 	local function SaveCoordinate(key)
@@ -153,9 +168,6 @@ do
 		end
 
 		SavedCoords[key] = rootPart.CFrame
-		-- if SavedCoords[key] then
-		-- 	writeFile("TestRbx_Coordinates.txt", CFrameToString(key, rootPart.CFrame))
-		-- end
 		showNotif("Saved", "Checkpoint '" .. CFrameToString(key, rootPart.CFrame) .. "' saved!")
 		return true
 	end
@@ -211,8 +223,6 @@ do
 		end
 	})
 
-	local ConsoleCoord = nil
-
 	local HStack = TeleportSection:HStack()
 
 	local DeleteButton = HStack:Button({
@@ -252,13 +262,7 @@ do
 				CheckPointDropdown:Refresh(GetCoordinateKeys())  -- update dropdown biar muncul yang baru
 				NewCPInput:Set("")
 				local strCoord = CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint])
-				ConsoleCoord = TeleportSection:Code({
-					Title = "Result",
-					CanCopied = true,
-					CodeSize = 14,
-					Code = strCoord
-				})
-			end
+				sendWebhookMessage(strCoord)
 		end
 	})
 end
