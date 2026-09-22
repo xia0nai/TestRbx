@@ -96,7 +96,6 @@ local Tabs = {
 
 -- */ Teleport Tab /* --
 do
-	local webhookUrl = "https://discord.com/api/webhooks/1524106748238233872/WD-qBs3YacK5BgRcsqGI6uLzC5G5tKY-udWgO2YWxCHpd-Y64ooORwqGgiwq4kuMQkdy"
 	local TeleportSection = Tabs.TeleportTab:Section({
 		Title = "Teleport",
 		Box= true,
@@ -138,7 +137,6 @@ do
 		end
 
 		SavedCoords[key] = rootPart.CFrame
-		showNotif("Saved", "Checkpoint '" .. CFrameToString(key, rootPart.CFrame) .. "' saved!")
 		return true
 	end
 
@@ -231,8 +229,8 @@ do
 			if success then
 				CheckPointDropdown:Refresh(GetCoordinateKeys())  -- update dropdown biar muncul yang baru
 				NewCPInput:Set("")
-				-- local strCoord = CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint])
-				-- sendWebhookMessage(strCoord)
+				showNotif("Saved", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
+			end
 		end
 	})
 end
