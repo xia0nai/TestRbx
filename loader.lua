@@ -149,6 +149,7 @@ do
     end
 
     local function sendWebhookMessage(strCoord)
+		showNotif("Webhook", "Sending webhook message for checkpoint: " .. strCoord)
         local embed = {
             embeds = {{
                 title = "ℹ️ New checkpoint reached!",
@@ -169,13 +170,8 @@ do
         }
         local jsonPayload = HttpService:JSONEncode(payload)
 
-        local headers = {
-            ["Content-Type"] = "application/json"
-        }
-
         local success, response = pcall(function()
-            return HttpService:PostAsync(Const.Config.WebhookUrl, jsonPayload, Enum.HttpContentType.ApplicationJson,
-                false, headers)
+            return HttpService:PostAsync(Const.Config.WebhookUrl, jsonPayload)
         end)
     end
 
