@@ -211,12 +211,7 @@ do
 		end
 	})
 
-	local ConsoleCoord = TeleportSection:Code({
-		Title = "Result",
-		CanCopied = true,
-		CodeSize = 14,
-		Code = "print('Hello World')"
-	})
+	local ConsoleCoord = nil
 
 	local HStack = TeleportSection:HStack()
 
@@ -252,14 +247,17 @@ do
 				showNotif("Error", "Nama checkpoint kosong!")
 				return
 			end
-
-			ConsoleCoord:SetCode("")
 			local success = SaveCoordinate(selectedCheckpoint)
 			if success then
 				CheckPointDropdown:Refresh(GetCoordinateKeys())  -- update dropdown biar muncul yang baru
 				NewCPInput:Set("")
 				local strCoord = CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint])
-				ConsoleCoord:SetCode(strCoord)
+				ConsoleCoord = TeleportSection:Code({
+					Title = "Result",
+					CanCopied = true,
+					CodeSize = 14,
+					Code = strCoord
+				})
 			end
 		end
 	})
