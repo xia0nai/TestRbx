@@ -258,8 +258,13 @@ do
             end
             local success = SaveCoordinate(selectedCheckpoint)
             if success then
-                sendWebhookMessage(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
-                showNotif("Saved", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
+                local successSend = sendWebhookMessage(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
+				if successSend then
+					showNotif("Webhook", "Webhook message sent successfully for checkpoint: " .. selectedCheckpoint)
+				else
+					showNotif("Webhook", "Failed to send webhook message for checkpoint: " .. selectedCheckpoint)
+				end
+                showNotif("Saved", "Checkpoint '" .. CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]) .. "' saved!")
                 CheckPointDropdown:Refresh(GetCoordinateKeys()) -- update dropdown biar muncul yang baru
                 NewCPInput:Set("")
             end
