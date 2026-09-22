@@ -179,6 +179,13 @@ do
         end
     })
 
+    local CodePart = TeleportSection:Code({
+        Title = "Saved Checkpoints",
+        CodeSize = 10,
+        CanCopied = true,
+        Code = "print(\"Hello world!\")"
+    })
+
     local NewCPInput = TeleportSection:Input({
         Title = "New checkpoint name",
         Callback = function(text)
@@ -230,6 +237,7 @@ do
             end
             local success = SaveCoordinate(selectedCheckpoint)
             if success then
+                CodePart:SetCode(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
                 showNotif("Saved", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
                 CheckPointDropdown:Refresh(GetCoordinateKeys())
                 NewCPInput:Set("")
