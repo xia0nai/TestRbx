@@ -32,7 +32,7 @@ end
 -- */  Window  /* --
 local Window = WindUI:CreateWindow({
 	Title = "TestRbx",
-	Author = "by xDiiw",
+	Author = "by xia0nai",
 	Folder = "xia0nai",
 	Icon = "solar:atom-bold-duotone",
 	Theme = "Crimson",
@@ -46,7 +46,7 @@ local Window = WindUI:CreateWindow({
 		Enabled = true,
 		Draggable = true,
 		OnlyMobile = false,
-		Scale = 0.7,
+		Scale = 0.8,
 		Color = ColorSequence.new( -- gradient
 			Color3.fromHex("#30FF6A"),
 			Color3.fromHex("#e7ff2f")
@@ -154,7 +154,40 @@ do
 		end
 	})
 
+	local TPButton = TeleportSection:Button({
+		Title = "Teleport",
+		Callback = function()
+			if selectedCheckpoint then
+				TeleportTo(selectedCheckpoint)
+			end
+		end
+	})
+
 	local HStack = TeleportSection:HStack()
+
+	local DeleteButton = HStack:Button({
+		Title = "Delete",
+		Icon = "lucide:trash",
+		Callback = function()
+			if not selectedCheckpoint then
+				showNotif("Error", "Tidak ada checkpoint yang dipilih!")
+				return
+			end
+			if not SavedCoords[selectedCheckpoint] then
+				showNotif("Error", "Checkpoint tidak ditemukan!")
+				return
+			end
+			local deletedName = selectedCheckpoint
+			SavedCoords[selectedCheckpoint] = nil
+			selectedCheckpoint = nil
+
+			if not SavedCoords[deletedName] then
+				CheckPointDropdown:Refresh(GetCoordinateKeys())
+				CheckPointDropdown:Select(nil)
+				showNotif("Deleted", "Checkpoint '" .. deletedName .. "' deleted!")
+			end
+		end
+	})
 
 	local SaveButton = HStack:Button({
 		Title = "Save",
@@ -172,16 +205,6 @@ do
 			end
 		end
 	})
-
-	local TPButton = HStack:Button({
-		Title = "Teleport",
-		Callback = function()
-			if selectedCheckpoint then
-				TeleportTo(selectedCheckpoint)
-			end
-		end
-	})
-
 end
 -- */ END Teleport Tab /* --
 
