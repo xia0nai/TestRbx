@@ -213,6 +213,8 @@ do
 
 	local ConsoleCoord = TeleportSection:Code({
 		Title = "Result",
+		CanCopied = true,
+		CodeSize = 14,
 		Code = "print('Hello World')"
 	})
 
@@ -255,7 +257,8 @@ do
 			if success then
 				CheckPointDropdown:Refresh(GetCoordinateKeys())  -- update dropdown biar muncul yang baru
 				NewCPInput:Set("")
-				ConsoleCoord:SetCode(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
+				local strCoord = CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint])
+				ConsoleCoord:SetCode(strCoord)
 			end
 		end
 	})
