@@ -152,13 +152,10 @@ do
         local embed = {
             embeds = {{
                 title = "ℹ️ New checkpoint reached!",
-                description = string.format("%s reached **Checkpoint 20**!\n```%s```", player.Name, strCoord),
+                description = string.format("%s reached **Checkpoint 20**!\n\`\`\`%s\`\`\`", player.Name, strCoord),
                 color = 16019256,
                 footer = {
                     text = "Keep unlock next checkpoints!"
-                },
-                image = {
-                    url = "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&q=80"
                 },
                 thumbnail = {
                     url = "https://cdn.discordapp.com/embed/avatars/2.png"
@@ -269,8 +266,6 @@ do
                 NewCPInput:Set("")
                 sendWebhookMessage(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
                 showNotif("Saved", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
-            else
-                showNotif("Error", "Gagal menyimpan checkpoint!")
             end
         end
     })
