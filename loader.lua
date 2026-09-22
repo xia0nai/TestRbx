@@ -259,7 +259,7 @@ do
             local success = SaveCoordinate(selectedCheckpoint)
             if success then
                 CheckPointDropdown:Refresh(GetCoordinateKeys()) -- update dropdown biar muncul yang baru
-                sendWebhookMessage(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
+                -- sendWebhookMessage(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
                 showNotif("Saved", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
                 NewCPInput:Set("")
             end
