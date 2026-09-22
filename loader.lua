@@ -9,6 +9,7 @@ end)
 local ReplicatedStorage = cloneref(game:GetService("ReplicatedStorage"))
 local HttpService = cloneref(game:GetService("HttpService"))
 
+local player = Players.LocalPlayer
 local WindUI
 
 do
@@ -54,7 +55,7 @@ local Window = WindUI:CreateWindow({
 	},
 	Topbar = {
 		Height = 44,
-		ButtonsType = "Mac", -- Default or Mac
+		ButtonsType = "Default", -- Default or Mac
 	},
 })
 -- */  Scale window  /* --
@@ -92,7 +93,6 @@ do
 		Opened = true,
 	})
 
-	local player = Players.LocalPlayer
 	local SavedCoords = {}
 	local selectedCheckpoint = nil
 
