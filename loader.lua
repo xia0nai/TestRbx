@@ -253,6 +253,7 @@ do
 				return
 			end
 
+			ConsoleCoord:SetCode("")
 			local success = SaveCoordinate(selectedCheckpoint)
 			if success then
 				CheckPointDropdown:Refresh(GetCoordinateKeys())  -- update dropdown biar muncul yang baru
