@@ -148,10 +148,6 @@ do
         return SavedCoords[key]
     end
 
-    local function sendWebhookMessage(strCoord)
-        showNotif("Webhook", "Sending webhook message for checkpoint: " .. strCoord)
-    end
-
     local function TeleportTo(key)
         local cframe = SavedCoords[key]
         if not cframe then
@@ -235,9 +231,14 @@ do
             end
             local success = SaveCoordinate(selectedCheckpoint)
             if success then
-                showNotif("Saved",
-                    "Checkpoint '" .. CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]) .. "' saved!")
-                sendWebhookMessage(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
+                local payload = {
+                    username = player.Name,
+                    content = CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint])
+                }
+                local jsonPayload = HttpService:JSONEncode(payload)
+                local success, err = pcall(function()
+                    HttpService:PostAsync(Const.Config.WebhookUrl, jsonPayload)
+                end)
                 CheckPointDropdown:Refresh(GetCoordinateKeys())
                 NewCPInput:Set("")
             end
