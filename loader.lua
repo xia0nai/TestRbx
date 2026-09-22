@@ -11,6 +11,15 @@ local HttpService = cloneref(game:GetService("HttpService"))
 
 local player = Players.LocalPlayer
 local WindUI
+local Const = {
+	Config = {
+		Author = "xia0nai",
+		Folder = "xia0nai",
+	},
+	WindUI = {
+		Theme = "Crimson",
+	},
+}
 
 do
     if cloneref(game:GetService("RunService")):IsStudio() then
@@ -33,10 +42,10 @@ end
 -- */  Window  /* --
 local Window = WindUI:CreateWindow({
 	Title = "TestRbx",
-	Author = "by xia0nai",
-	Folder = "xia0nai",
+	Author = "by " .. Const.Config.Author,
+	Folder = Const.Config.Folder,
 	Icon = "solar:atom-bold-duotone",
-	Theme = "Crimson",
+	Theme = Const.WindUI.Theme,
 	NewElements = true,
 	HideSearchBar = false,
 	OpenButton = {
@@ -96,6 +105,26 @@ do
 	local SavedCoords = {}
 	local selectedCheckpoint = nil
 
+	local function CFrameToString(key, cf)
+		local x, y, z = cf.Position.X, cf.Position.Y, cf.Position.Z
+		local rx, ry, rz = cf:ToEulerAnglesXYZ()
+
+		return string.format("%s;%.4f;%.4f;%.4f;%.4f;%.4f;%.4f", key, x, y, z, rx, ry, rz)
+	end
+
+	local function StringToCFrame(str)
+		local parts = {}
+		for value in str:gmatch("[^;]+") do
+			table.insert(parts, value)
+		end
+
+		local key = parts[1]
+		local x, y, z, rx, ry, rz = tonumber(parts[2]), tonumber(parts[3]), tonumber(parts[4]), tonumber(parts[5]), tonumber(parts[6]), tonumber(parts[7])
+
+		local cframe = CFrame.new(x, y, z) * CFrame.Angles(rx, ry, rz)
+		return key, cframe
+	end
+
 	local function SaveCoordinate(key)
 		local character = player.Character
 		if not character then
@@ -108,6 +137,12 @@ do
 		end
 
 		SavedCoords[key] = rootPart.CFrame
+		if SavedCoords[key] then
+			local coordinateSaveFile = io.open(Const.Config.Folder .. "/Configs/TestRbx_Coordinates.txt", "a+")
+			coordinateSaveFile:write(CFrameToString(key, rootPart.CFrame) .. "\n")
+			coordinateSaveFile:flush()
+			coordinateSaveFile:close()
+		end
 		showNotif("Saved", "Checkpoint '" .. key .. "' saved!")
 		return true
 	end
