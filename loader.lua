@@ -96,6 +96,7 @@ local Tabs = {
 
 -- */ Teleport Tab /* --
 do
+	local coordinateSaveFile = io.open("TestRbx_Coordinates.txt", "a+")
 	local TeleportSection = Tabs.TeleportTab:Section({
 		Title = "Teleport",
 		Box= true,
@@ -138,10 +139,8 @@ do
 
 		SavedCoords[key] = rootPart.CFrame
 		if SavedCoords[key] then
-			local coordinateSaveFile = io.open(Const.Config.Folder .. "/Configs/TestRbx_Coordinates.txt", "a+")
 			coordinateSaveFile:write(CFrameToString(key, rootPart.CFrame) .. "\n")
 			coordinateSaveFile:flush()
-			coordinateSaveFile:close()
 		end
 		showNotif("Saved", "Checkpoint '" .. key .. "' saved!")
 		return true
