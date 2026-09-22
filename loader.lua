@@ -166,7 +166,7 @@ do
 
         local payload = {
             username = player.Name,
-            content = HttpService:JSONEncode(embed)
+            content = "Checkpoint reached!",
         }
         local jsonPayload = HttpService:JSONEncode(payload)
 
@@ -259,9 +259,9 @@ do
             local success = SaveCoordinate(selectedCheckpoint)
             if success then
                 CheckPointDropdown:Refresh(GetCoordinateKeys()) -- update dropdown biar muncul yang baru
-                NewCPInput:Set("")
                 sendWebhookMessage(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
                 showNotif("Saved", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
+                NewCPInput:Set("")
             end
         end
     })
