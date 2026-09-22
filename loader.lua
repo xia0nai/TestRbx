@@ -127,35 +127,6 @@ do
 		return key, cframe
 	end
 
-	local function sendWebhookMessage(strCoord)
-		local embed = {
-			embeds = {
-				{
-					title = "ℹ️ New checkpoint reached!",
-					description = string.format("%s reached **Checkpoint 20**!\n```%s```", player.Name, strCoord),
-					color = 16019256,
-					footer = { text = "Keep unlock next checkpoints!" },
-					image = { url = "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&q=80" },
-					thumbnail = { url = "https://cdn.discordapp.com/embed/avatars/2.png" },
-				},
-			},
-		}
-
-		local payload = {
-			username = player.Name,
-			content = HttpService:JSONEncode(embed),
-		}
-		local jsonPayload = HttpService:JSONEncode(payload)
-
-		local headers = {
-			["Content-Type"] = "application/json"
-		}
-
-		local success, response = pcall(function()
-			return HttpService:PostAsync(webhookUrl, jsonPayload, Enum.HttpContentType.ApplicationJson, false, headers)
-		end)
-	end
-
 	local function SaveCoordinate(key)
 		local character = player.Character
 		if not character then
@@ -262,7 +233,7 @@ do
 				CheckPointDropdown:Refresh(GetCoordinateKeys())  -- update dropdown biar muncul yang baru
 				NewCPInput:Set("")
 				local strCoord = CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint])
-				sendWebhookMessage(strCoord)
+				-- sendWebhookMessage(strCoord)
 		end
 	})
 end
