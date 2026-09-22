@@ -100,11 +100,12 @@ local Tabs = {
 
 -- */ Teleport Tab /* --
 do
+    local character = Players.Character
     local ListCheckpoints = {"Cp 01;463.7599;444.9600;-8945.7236;-0.0000;0.0000;-0.0000",
                              "Cp 02;449.5000;489.3040;-9568.0000;0.0000;0.0000;0.0000",
                              "Cp 03;398.2754;629.3039;-10113.5293;0.0000;0.0000;0.0000",
                              "Cp 04;486.5005;637.3039;-10681.0000;-3.1416;-1.4921;-3.1416",
-                             "Cp 55;1088.5012;725.3039;-11156.4990;-0.0000;0.0000;-0.0000",
+                             "Cp 05;1088.5012;725.3039;-11156.4990;-0.0000;0.0000;-0.0000",
                              "Cp 06;973.6875;733.3039;-11808.9043;-0.0000;1.44₀2;₀.₀₀₀₀",
                              "Cp 07;390.2701;885.3039;-11839.1084;0.0000;1.5191;-0.0000",
                              "Cp 08;-325.8742;849.3039;-11738.4873;0.0000;1.5177;-0.0000",
@@ -206,6 +207,17 @@ do
         Values = GetCoordinateKeys(),
         Callback = function(selected)
             selectedCheckpoint = selected
+            if selectedCheckpoint then
+                local humanoid = character and character:FindFirstChild("Humanoid")
+                if humanoid then
+                    humanoid:MoveTo(targetPosition)
+                    humanoid.MoveToFinished:Connect(function(reached)
+                        if reached then
+                            showNotif("Teleport", "Successfully teleported to '" .. selectedCheckpoint .. "'")
+                        end
+                    end)
+                end
+            end
         end
     })
 
