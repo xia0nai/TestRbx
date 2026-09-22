@@ -225,20 +225,12 @@ do
         Title = "Save",
         Icon = "lucide:save",
         Callback = function()
-            if selectedCheckpoint == "" then
-                showNotif("Error", "Nama checkpoint kosong!")
-                return
+            if selectedCheckpoint == "" or selectedCheckpoint == nil then
+                selectedCheckpoint = "CP " .. tostring(#GetCoordinateKeys() + 1)
             end
             local success = SaveCoordinate(selectedCheckpoint)
             if success then
-                local payload = {
-                    username = player.Name,
-                    content = CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint])
-                }
-                local jsonPayload = HttpService:JSONEncode(payload)
-                local success, err = pcall(function()
-                    HttpService:PostAsync(Const.Config.WebhookUrl, jsonPayload)
-                end)
+                showNotif("Saved", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
                 CheckPointDropdown:Refresh(GetCoordinateKeys())
                 NewCPInput:Set("")
             end
