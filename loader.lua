@@ -226,7 +226,7 @@ do
         Icon = "lucide:save",
         Callback = function()
             if selectedCheckpoint == "" or selectedCheckpoint == nil then
-                selectedCheckpoint = "CP " .. tostring(#GetCoordinateKeys() + 1)
+                selectedCheckpoint = "Cp " .. tostring(#GetCoordinateKeys() + 1)
             end
             local success = SaveCoordinate(selectedCheckpoint)
             if success then
