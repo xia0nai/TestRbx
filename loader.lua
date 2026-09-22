@@ -50,6 +50,7 @@ local Window = WindUI:CreateWindow({
     Theme = Const.WindUI.Theme,
     NewElements = true,
     HideSearchBar = false,
+    ScrollBarEnabled = true,
     OpenButton = {
         Title = "TestRbx",
         Icon = "solar:atom-bold-duotone",
@@ -99,6 +100,7 @@ local Tabs = {
 
 -- */ Teleport Tab /* --
 do
+    local ListCoordString = ""
     local TeleportSection = Tabs.TeleportTab:Section({
         Title = "Teleport",
         Box = true,
@@ -237,7 +239,9 @@ do
             end
             local success = SaveCoordinate(selectedCheckpoint)
             if success then
-                CodePart:SetCode(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
+                ListCoordString =
+                    ListCoordString .. CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]) .. "\n"
+                CodePart:SetCode(ListCoordString)
                 showNotif("Saved", "Checkpoint '" .. selectedCheckpoint .. "' saved!")
                 CheckPointDropdown:Refresh(GetCoordinateKeys())
                 NewCPInput:Set("")
