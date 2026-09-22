@@ -132,7 +132,7 @@ do
 			embeds = {
 				{
 					title = "ℹ️ New checkpoint reached!",
-					description = string.format("<@123456789> reached **Checkpoint 20**!\n```%s```", strCoord),
+					description = string.format("%s reached **Checkpoint 20**!\n```%s```", player.Name, strCoord),
 					color = 16019256,
 					footer = { text = "Keep unlock next checkpoints!" },
 					image = { url = "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&q=80" },
