@@ -1,13 +1,13 @@
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local VirtualUser = game:GetService("VirtualUser")
 local RunService = game:GetService("RunService")
+local HttpService = game:GetService("HttpService")
 
 local cloneref = (cloneref or clonereference or function(instance)
     return instance
 end)
-local ReplicatedStorage = cloneref(game:GetService("ReplicatedStorage"))
-local HttpService = cloneref(game:GetService("HttpService"))
 
 local player = Players.LocalPlayer
 local WindUI
@@ -258,13 +258,7 @@ do
             end
             local success = SaveCoordinate(selectedCheckpoint)
             if success then
-                local successSend = sendWebhookMessage(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
-				if successSend then
-					showNotif("Webhook", "Webhook message sent successfully for checkpoint: " .. selectedCheckpoint)
-				else
-					showNotif("Webhook", "Failed to send webhook message for checkpoint: " .. selectedCheckpoint)
-				end
-                showNotif("Saved", "Checkpoint '" .. CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]) .. "' saved!")
+				showNotif("Saved", "Checkpoint '" .. CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]) .. "' saved!")
                 CheckPointDropdown:Refresh(GetCoordinateKeys()) -- update dropdown biar muncul yang baru
                 NewCPInput:Set("")
             end
