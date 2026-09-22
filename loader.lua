@@ -207,17 +207,6 @@ do
         Values = GetCoordinateKeys(),
         Callback = function(selected)
             selectedCheckpoint = selected
-            if selectedCheckpoint then
-                local humanoid = character and character:FindFirstChild("Humanoid")
-                if humanoid then
-                    humanoid:MoveTo(targetPosition)
-                    humanoid.MoveToFinished:Connect(function(reached)
-                        if reached then
-                            showNotif("Teleport", "Successfully teleported to '" .. selectedCheckpoint .. "'")
-                        end
-                    end)
-                end
-            end
         end
     })
 
