@@ -130,10 +130,11 @@ do
 			local f = io.open(filename, "a+")
 			if not f then
 				shwNotif("Error", "Failed to open file: " .. filename)
-				return
+				return false
 			end
 			f:write(content, "\n")
 			f:close()
+			return true
 		end)
 		if not success then
 			showNotif("Error", "Failed to write to file: " .. err)
