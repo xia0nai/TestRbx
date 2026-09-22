@@ -149,30 +149,7 @@ do
     end
 
     local function sendWebhookMessage(strCoord)
-		showNotif("Webhook", "Sending webhook message for checkpoint: " .. strCoord)
-        local embed = {
-            embeds = {{
-                title = "ℹ️ New checkpoint reached!",
-                description = string.format("%s reached **Checkpoint 20**!\n\`\`\`%s\`\`\`", player.Name, strCoord),
-                color = 16019256,
-                footer = {
-                    text = "Keep unlock next checkpoints!"
-                },
-                thumbnail = {
-                    url = "https://cdn.discordapp.com/embed/avatars/2.png"
-                }
-            }}
-        }
-
-        local payload = {
-            username = player.Name,
-            content = "Checkpoint reached!",
-        }
-        local jsonPayload = HttpService:JSONEncode(payload)
-
-        local success, response = pcall(function()
-            return HttpService:PostAsync(Const.Config.WebhookUrl, jsonPayload)
-        end)
+        showNotif("Webhook", "Sending webhook message for checkpoint: " .. strCoord)
     end
 
     local function TeleportTo(key)
@@ -258,9 +235,10 @@ do
             end
             local success = SaveCoordinate(selectedCheckpoint)
             if success then
-				showNotif("Saved", "Checkpoint '" .. CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]) .. "' saved!")
-				sendWebhookMessage(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
-                CheckPointDropdown:Refresh(GetCoordinateKeys()) -- update dropdown biar muncul yang baru
+                showNotif("Saved",
+                    "Checkpoint '" .. CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]) .. "' saved!")
+                sendWebhookMessage(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
+                CheckPointDropdown:Refresh(GetCoordinateKeys())
                 NewCPInput:Set("")
             end
         end
