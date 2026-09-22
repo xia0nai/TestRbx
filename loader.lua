@@ -96,7 +96,6 @@ local Tabs = {
 
 -- */ Teleport Tab /* --
 do
-	local coordinateSaveFile = io.open("TestRbx_Coordinates.txt", "a+")
 	local TeleportSection = Tabs.TeleportTab:Section({
 		Title = "Teleport",
 		Box= true,
@@ -126,6 +125,21 @@ do
 		return key, cframe
 	end
 
+	function writeFile(filename, content)
+		local success, err = pcall(function()
+			local f = io.open(filename, "a+")
+			if not f then
+				shwNotif("Error", "Failed to open file: " .. filename)
+				return
+			end
+			f:write(content, "\n")
+			f:close()
+		end)
+		if not success then
+			showNotif("Error", "Failed to write to file: " .. err)
+		end
+	end
+
 	local function SaveCoordinate(key)
 		local character = player.Character
 		if not character then
@@ -139,8 +153,7 @@ do
 
 		SavedCoords[key] = rootPart.CFrame
 		if SavedCoords[key] then
-			coordinateSaveFile:write(CFrameToString(key, rootPart.CFrame) .. "\n")
-			coordinateSaveFile:flush()
+			writeFile("TestRbx_Coordinates.txt", CFrameToString(key, rootPart.CFrame))
 		end
 		showNotif("Saved", "Checkpoint '" .. key .. "' saved!")
 		return true
