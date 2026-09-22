@@ -153,10 +153,10 @@ do
 		end
 
 		SavedCoords[key] = rootPart.CFrame
-		if SavedCoords[key] then
-			writeFile("TestRbx_Coordinates.txt", CFrameToString(key, rootPart.CFrame))
-		end
-		showNotif("Saved", "Checkpoint '" .. key .. "' saved!")
+		-- if SavedCoords[key] then
+		-- 	writeFile("TestRbx_Coordinates.txt", CFrameToString(key, rootPart.CFrame))
+		-- end
+		showNotif("Saved", "Checkpoint '" .. CFrameToString(key, rootPart.CFrame) .. "' saved!")
 		return true
 	end
 
@@ -211,6 +211,11 @@ do
 		end
 	})
 
+	local ConsoleCoord = TeleportSection:Code({
+		Title = "Result",
+		Code = "print('Hello World')"
+	})
+
 	local HStack = TeleportSection:HStack()
 
 	local DeleteButton = HStack:Button({
@@ -250,6 +255,7 @@ do
 			if success then
 				CheckPointDropdown:Refresh(GetCoordinateKeys())  -- update dropdown biar muncul yang baru
 				NewCPInput:Set("")
+				ConsoleCoord:SetCode(CFrameToString(selectedCheckpoint, SavedCoords[selectedCheckpoint]))
 			end
 		end
 	})
