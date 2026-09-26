@@ -1,13 +1,13 @@
+local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local VirtualUser = game:GetService("VirtualUser")
-local RunService = game:GetService("RunService")
-local HttpService = game:GetService("HttpService")
 
 local cloneref = (cloneref or clonereference or function(instance)
     return instance
 end)
+local ReplicatedStorage = cloneref(game:GetService("ReplicatedStorage"))
+local HttpService = cloneref(game:GetService("HttpService"))
 
 local player = Players.LocalPlayer
 local WindUI
